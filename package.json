@@ -1,0 +1,31 @@
+{
+  "name": "nightwatch-recorder-extension",
+  "version": "0.1.0",
+  "description": "Nightwatch Extension for Devtools that allows you to export tests directly from the Recorder panel.",
+  "scripts": {
+    "build": "./preprocessExtension.sh && rollup --config rollup.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nightwatchjs/nightwatch-recorder-extension.git"
+  },
+  "author": "Vaibhav Singh <vaibhav.s@browserstack.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nightwatchjs/nightwatch-recorder-extension/issues"
+  },
+  "keywords": [
+    "nightwatch",
+    "chrome",
+    "extension",
+    "automation"
+  ],
+  "homepage": "https://github.com/nightwatchjs/nightwatch-recorder-extension#readme",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "rollup": "^2.77.2"
+  },
+  "dependencies": {
+    "@nightwatch/chrome-recorder": "^0.1.1"
+  }
+}
