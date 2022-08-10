@@ -5,6 +5,11 @@
   "description": "Nightwatch Extension for Devtools that allows you to export tests directly from the Recorder panel.",
   "permissions": [],
   "devtools_page": "DevToolsPlugin.html",
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
