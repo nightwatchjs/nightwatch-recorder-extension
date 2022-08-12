@@ -15,7 +15,7 @@ export class RecorderPlugin {
 chrome.devtools.recorder.registerRecorderExtensionPlugin(
   new RecorderPlugin(),
   /* name=*/
-  'Nightwatch Test',
+  'Nightwatch test',
   /* mediaType=*/
   'text/javascript'
 );

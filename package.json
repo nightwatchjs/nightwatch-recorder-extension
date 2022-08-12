@@ -23,9 +23,9 @@
   "homepage": "https://github.com/nightwatchjs/nightwatch-recorder-extension#readme",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.3.0",
-    "rollup": "^2.77.2"
+    "rollup": "^2.77.3"
   },
   "dependencies": {
-    "@nightwatch/chrome-recorder": "^0.1.1"
+    "@nightwatch/chrome-recorder": "^0.1.4"
   }
 }
