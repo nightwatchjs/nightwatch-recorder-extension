@@ -2,7 +2,7 @@
 
 Nightwatch extension for Devtools that allows you to export tests directly from the recorder panel.
 
-# How to use it
+# How to install and use it
 
 1. Install the [extension](https://chrome.google.com/webstore/detail/nightwatch-chrome-recorde/nhbccjfogdgkahamfohokdhcnemjafjk/related) from Chrome Web Store. 
 2. Open a new tab in the browser.
