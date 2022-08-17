@@ -1,10 +1,10 @@
 # Nightwatch Recorder Extension
 
-[Nightwatch Recorder]((https://chrome.google.com/webstore/detail/nightwatch-chrome-recorde/nhbccjfogdgkahamfohokdhcnemjafjk/related)) extension allows you to export tests directly from the Chrome DevTools [Recorder panel](https://goo.gle/devtools-recorder).
+[Nightwatch Recorder](https://chrome.google.com/webstore/detail/nightwatch-chrome-recorde/nhbccjfogdgkahamfohokdhcnemjafjk) extension allows you to export tests directly from the Chrome DevTools [Recorder panel](https://goo.gle/devtools-recorder).
 
 # How to install and use it
 
-1. Install the [extension](https://chrome.google.com/webstore/detail/nightwatch-chrome-recorde/nhbccjfogdgkahamfohokdhcnemjafjk/related) from Chrome Web Store. 
+1. Install the [extension](https://chrome.google.com/webstore/detail/nightwatch-chrome-recorde/nhbccjfogdgkahamfohokdhcnemjafjk) from Chrome Web Store. 
 2. Open a new tab in the browser.
 3. [Open DevTools](https://developer.chrome.com/docs/devtools/open/).
 4. Open an existing user flow or [record a new user flow](https://goo.gle/devtools-recorder) with the Recorder panel.
@@ -14,4 +14,4 @@
 
 # Export user flows as Nightwatch test scripts programmatically
 
-Use the [Nightwatch Chrome Recorder](https://github.com/nightwatchjs/nightwatch-chrome-recorder) CLI to Eeport user flows as Nightwatch test scripts programmatically. 
+Use the [Nightwatch Chrome Recorder](https://github.com/nightwatchjs/nightwatch-chrome-recorder) CLI to Export user flows as Nightwatch test scripts programmatically. 
