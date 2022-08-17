@@ -2,6 +2,9 @@
 
 [Nightwatch Recorder](https://chrome.google.com/webstore/detail/nightwatch-chrome-recorde/nhbccjfogdgkahamfohokdhcnemjafjk) extension allows you to export tests directly from the Chrome DevTools [Recorder panel](https://goo.gle/devtools-recorder).
 
+See [Create Nightwatch test using Google Chrome DevTools Recorder](https://nightwatchjs.org/guide/writing-tests/chrome-devtools-recorder.html) to learn more.
+
+
 # How to install and use it
 
 1. Install the [extension](https://chrome.google.com/webstore/detail/nightwatch-chrome-recorde/nhbccjfogdgkahamfohokdhcnemjafjk) from Chrome Web Store. 
