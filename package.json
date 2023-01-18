@@ -25,6 +25,6 @@
     "@rollup/plugin-node-resolve": "^15.0.1"
   },
   "dependencies": {
-    "@nightwatch/chrome-recorder": "^0.2.1"
+    "@nightwatch/chrome-recorder": "^0.2.2"
   }
 }
