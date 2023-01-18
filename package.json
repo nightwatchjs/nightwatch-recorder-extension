@@ -1,6 +1,6 @@
 {
   "name": "nightwatch-recorder-extension",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "Nightwatch Extension for Devtools that allows you to export tests directly from the Recorder panel.",
   "scripts": {
     "build": "./preprocessExtension.sh && rollup --config rollup.config.js"
