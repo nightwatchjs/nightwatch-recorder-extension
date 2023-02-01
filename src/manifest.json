@@ -13,5 +13,18 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
-  "minimum_chrome_version": "101"
+  "minimum_chrome_version": "101",
+  "action": {
+    "default_popup": "hello.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*"],
+      "js": ["content.js"],
+      "css": ["style.css"]
+    }
+  ]
 }
