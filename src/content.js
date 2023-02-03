@@ -1,37 +1,77 @@
 (() => {
     const nwTooltip = createTooltip();
+    //Explore mode is not the default mode
+    var EXPLORE_MODE = false;
+    //const tabID = getCurrentTabId();
+
     chrome.runtime.onMessage.addListener((msg, sender, response) => {
-        console.log(msg);
+        const {from, action, content} = msg;
+
+        switch (action) {
+            case 'EXPLORE_MODE':
+                setExploreMode(content);
+                break;
+        }
     });
+
     document.addEventListener('mouseover', function (e) {
-        var element = e.target;
-        element.classList.add('nw-highlight');
+        if (!EXPLORE_MODE) {
+            return;
+        }
+
+        const element = e.target;
+        highlightElement(element);
         const selectorList = generateSelectors(element);
         updateTooltipPosition(element, selectorList);
     });
 
     document.addEventListener('mouseout', function (e) {
-        var element = e.target;
-        element.classList.remove('nw-highlight');
+        if (!EXPLORE_MODE) {
+            return;
+        }
+
+        const element = e.target;
+        clearHighlight(element);
         updateTooltipPosition();
     });
 
     document.addEventListener('click', function(e) {
+        if (!EXPLORE_MODE) {
+            return;
+        }
+        
         disableClick(e);
         var element = e.target;
         const selectorList = generateSelectors(element);
-        // chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        //     chrome.tabs.sendMessage(tabs[0].id, {greeting: "hello"}, function(response) {
-        //       console.log(response.farewell);
-        //     });
-        //  });
+
         chrome.runtime.sendMessage({
-            from: 'content.js',
-            subject: 'selector',
-            value: selectorList
+            from: 'contentJS',
+            action: 'selector',
+            content: selectorList
         });
 
     });
+
+    function setExploreMode(value) {
+        EXPLORE_MODE = value;
+    }
+
+    async function getCurrentTabId() {
+        let queryOptions = { active: true, lastFocusedWindow: true };
+        // `tab` will either be a `tabs.Tab` instance or `undefined`.
+        let [tab] = await chrome.tabs.query(queryOptions);
+        return tab;
+    }
+
+    function highlightElement(element) {
+        // Adding css class to highlight the element
+        element.classList.add('nw-highlight');
+    }
+
+    function clearHighlight(element) {
+        element.classList.remove('nw-highlight');
+    }
+
     function disableClick(e) {
         e.stopPropagation();
         e.preventDefault();

@@ -3,7 +3,7 @@
   "version": "0.2.2",
   "name": "Nightwatch Chrome Recorder",
   "description": "Nightwatch Extension for Devtools that allows you to export tests directly from the Recorder panel.",
-  "permissions": [],
+  "permissions": ["tabs"],
   "devtools_page": "DevToolsPlugin.html",
   "icons": {
     "16": "assets/icon16.png",
@@ -14,17 +14,14 @@
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
   "minimum_chrome_version": "101",
-  "action": {
-    "default_popup": "hello.html"
-  },
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["https://*/*"],
-      "js": ["content.js"],
-      "css": ["style.css"]
+      "matches": ["<all_urls>"],
+      "css": ["style.css"],
+      "js": ["content.js"]
     }
   ]
 }
