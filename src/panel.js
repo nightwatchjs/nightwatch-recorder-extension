@@ -17,7 +17,7 @@
 
     chrome.runtime.onMessage.addListener((msg, sender, response) => {
         const {from, action, content} = msg;
-        console.log(msg);
+
         if (sender.tab.id === tabID && from === 'contentJS') {
             switch (action) {
                 case 'selector':
@@ -60,14 +60,40 @@
         const tbody = selectorTable.getElementsByTagName('tbody')[0];
         const newRow = tbody.insertRow(0);
         const timestamp = new Date().toLocaleString();
-        const tableRow = `<td>${selector}</td>
-            <td>${timestamp}</td>
-            <td><button class = "${id}">Highlight</button></td>`;
-        newRow.innerHTML = tableRow;
+        
+        const highlightButton = document.createElement('button');
+        highlightButton.appendChild(document.createTextNode('Highlight'));
+        highlightButton.addEventListener('click', clickOnHighlight);
+
+        const copyButton = document.createElement('button');
+        copyButton.appendChild(document.createTextNode('Copy'));
+        copyButton.addEventListener('click', clickOnCopy);
+
+        var newCell = newRow.insertCell();
+        newCell.appendChild(document.createTextNode(selector));
+
+        newCell = newRow.insertCell();
+        newCell.appendChild(document.createTextNode(timestamp));
+
+        newCell = newRow.insertCell();
+        newCell.appendChild(highlightButton);
+        newCell.appendChild(copyButton);
+        
+    }
+    function getSelectorFromFirstCell(e) {
+        const targetElement = e.target.parentElement.parentElement.firstElementChild;
+        return targetElement.textContent;
     }
 
-    document.querySelector('.table-row').addEventListener('click', function (e) {
+    function clickOnHighlight(e) {
+        const selectorValue = getSelectorFromFirstCell(e);
+        sendMessageToBackground('highlightSelector', selectorValue);
+    }
 
-        console.log(e.target);
-    })
+    function clickOnCopy(e) {
+        const selectorValue = getSelectorFromFirstCell(e);
+        // TODO: clipboard API not working. Need to figure out other way to copy
+        //sendMessageToBackground('copyToClipboard', selectorValue);
+        //chrome.clipboard.writeText(selectorValue);
+    }
 })();

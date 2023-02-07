@@ -11,6 +11,15 @@
             case 'EXPLORE_MODE':
                 setExploreMode(content);
                 break;
+
+            case 'highlightSelector':
+                highlightSelector(content);
+                break;
+            
+            // case 'copyToClipboard':
+            //     console.log(content);
+            //     navigator.clipboard.writeText(content);
+            //     break;
         }
     });
 
@@ -61,6 +70,10 @@
         // `tab` will either be a `tabs.Tab` instance or `undefined`.
         let [tab] = await chrome.tabs.query(queryOptions);
         return tab;
+    }
+
+    function highlightSelector(selector) {
+        
     }
 
     function highlightElement(element) {
