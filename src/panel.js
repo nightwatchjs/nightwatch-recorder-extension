@@ -1,8 +1,7 @@
 (() => {
-    //console.log('hello')
+    const webSocket = new WebSocket('ws://localhost:8080');
     const selectorTable = document.getElementById('selectorTable');
     const tabID = chrome.devtools.inspectedWindow.tabId;
-    let numberOfRows = 0;
 
     const backgroundPageConnection = chrome.runtime.connect({
         name: "devtools-page"
@@ -27,6 +26,11 @@
         }
     });
 
+    webSocket.on('message', function message(msg) {
+        console.log(msg);
+        document.getElementById('nightwatchCommand').textContent = msg.data;
+    });
+
     document.querySelector('#exploreMode').addEventListener('click', function(e) {
         const checkBox = e.target;
         if (checkBox.checked){
@@ -34,6 +38,12 @@
         } else {
             sendMessageToBackground('EXPLORE_MODE', false);
         }
+    });
+
+    document.querySelector('#tryNightwatchCommand').addEventListener('click', function(e) {
+        const nightwatchCommandElement = document.getElementById('nightwatchCommand');
+        const nightwatchCommand = nightwatchCommandElement.textContent;
+        webSocket.send(nightwatchCommand);
     });
 
     function sendMessageToContentJS(action = null, content = null) {
@@ -55,8 +65,6 @@
     }
     //Add row to table in panel.html
     function addRow(selector) {
-        numberOfRows++;
-        const id = `table-row`;
         const tbody = selectorTable.getElementsByTagName('tbody')[0];
         const newRow = tbody.insertRow(0);
         const timestamp = new Date().toLocaleString();
@@ -80,6 +88,7 @@
         newCell.appendChild(copyButton);
         
     }
+
     function getSelectorFromFirstCell(e) {
         const targetElement = e.target.parentElement.parentElement.firstElementChild;
         return targetElement.textContent;

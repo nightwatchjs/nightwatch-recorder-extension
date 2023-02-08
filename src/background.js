@@ -1,6 +1,3 @@
-// // var ws = new WebSocket('ws://localhost:8088');
-
-// // background.js
 var connections = {};
 
 chrome.runtime.onConnect.addListener(function (port) {
