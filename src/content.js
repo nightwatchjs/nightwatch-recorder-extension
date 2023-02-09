@@ -1,5 +1,6 @@
 (() => {
     const nwTooltip = createTooltip();
+    const highlightClassName = 'nw-highlight';
     //Explore mode is not the default mode
     var EXPLORE_MODE = false;
     //const tabID = getCurrentTabId();
@@ -50,6 +51,7 @@
         }
         
         disableClick(e);
+        clearHighlight();
         var element = e.target;
         const selectorList = generateSelectors(element);
 
@@ -73,16 +75,28 @@
     }
 
     function highlightSelector(selector) {
-        
+        // clear all previous highlighted elements
+        clearHighlight();
+
+        const element = document.querySelector(selector);
+        highlightElement(element);
     }
 
     function highlightElement(element) {
         // Adding css class to highlight the element
-        element.classList.add('nw-highlight');
+        element.classList.add(highlightClassName);
     }
 
-    function clearHighlight(element) {
-        element.classList.remove('nw-highlight');
+    function clearHighlight(element = null) {
+        if (element) {
+            element.classList.remove(highlightClassName);
+            return;
+        }
+
+        const highlightedElements = [...document.getElementsByClassName(highlightClassName)];
+        highlightedElements.forEach((element) => {
+            element.classList.remove(highlightClassName);
+        });
     }
 
     function disableClick(e) {
@@ -91,9 +105,25 @@
     }
 
     function generateSelectors(element) {
-        // For now, only generating class names
-        const id = element.getAttribute('class');
-        return id;
+        let selector = '>' + element.nodeName.toLowerCase() + ':nth-child(' + getChildIndex(element) + ')';
+        let parent = element.parentNode;
+
+        while (!parent.id && parent.nodeName.toLowerCase() !== 'body') {
+            selector = '>' + parent.nodeName.toLowerCase() + ':nth-child(' + getChildIndex(parent) + ')' + selector;
+            parent = parent.parentNode;
+        }
+
+        if (parent.nodeName === 'body') {
+            selector = 'body' + selector;
+        } else {
+            selector = '#' + parent.id + selector;
+        }
+
+        return selector;
+    }
+
+    function getChildIndex(element) {
+        return Array.from(element.parentNode.children).indexOf(element) + 1;
     }
 
     function createTooltip() {
@@ -117,7 +147,7 @@
         nwTooltip.style.top = rect.top + window.pageYOffset + 'px';
         nwTooltip.style.left = rect.right + window.pageXOffset + 10 + 'px';
         // removing css class which is added to highlight the text
-        selectorValue = selectorValue.replace('nw-highlight', '');
+        selectorValue = selectorValue.replace(highlightClassName, '');
         nwTooltip.textContent = selectorValue;
         return;
     }

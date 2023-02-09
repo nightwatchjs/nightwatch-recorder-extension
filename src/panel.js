@@ -86,7 +86,6 @@
         newCell = newRow.insertCell();
         newCell.appendChild(highlightButton);
         newCell.appendChild(copyButton);
-        
     }
 
     function getSelectorFromFirstCell(e) {
