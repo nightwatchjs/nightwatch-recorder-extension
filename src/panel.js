@@ -2,7 +2,8 @@
     const webSocket = new WebSocket('ws://localhost:8080');
     const selectorTable = document.getElementById('selectorTable');
     const tabID = chrome.devtools.inspectedWindow.tabId;
-
+    let webSocketConnection = false;
+    
     const backgroundPageConnection = chrome.runtime.connect({
         name: "devtools-page"
     });
@@ -26,10 +27,16 @@
         }
     });
 
-    webSocket.on('message', function message(msg) {
-        console.log(msg);
-        document.getElementById('nightwatchCommand').textContent = msg.data;
+    webSocket.addEventListener('open', function (event) {
+        webSocketConnection = true;
     });
+
+    if (webSocketConnection) {
+        webSocket.on('message', function message(msg) {
+            console.log(msg);
+            document.getElementById('nightwatchCommand').textContent = msg.data;
+        });
+    }
 
     document.querySelector('#exploreMode').addEventListener('click', function(e) {
         const checkBox = e.target;

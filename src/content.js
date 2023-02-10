@@ -31,7 +31,8 @@
 
         const element = e.target;
         highlightElement(element);
-        const selectorList = generateSelectors(element);
+        //const selectorList = generateSelectors(element) || generateUniqueSelectors(element);
+        const selectorList = generateUniqueSelectors(element);
         updateTooltipPosition(element, selectorList);
     });
 
@@ -53,7 +54,8 @@
         disableClick(e);
         clearHighlight();
         var element = e.target;
-        const selectorList = generateSelectors(element);
+        //const selectorList = generateSelectors(element) || generateUniqueSelectors(element);
+        const selectorList = generateUniqueSelectors(element);
 
         chrome.runtime.sendMessage({
             from: 'contentJS',
@@ -104,7 +106,8 @@
         e.preventDefault();
     }
 
-    function generateSelectors(element) {
+    function generateUniqueSelectors(element) {
+
         let selector = '>' + element.nodeName.toLowerCase() + ':nth-child(' + getChildIndex(element) + ')';
         let parent = element.parentNode;
 
@@ -119,6 +122,22 @@
             selector = '#' + parent.id + selector;
         }
 
+        return selector;
+    }
+
+    function generateSelectors(element) {
+        let selector = '';
+        const elementName = element.nodeName.toLowerCase();
+        [...element.attributes].forEach((eachAttribute) => {
+            const attributesName = eachAttribute.nodeName.toLowerCase();
+            if (attributesName.startsWith('data-')) {
+                selector = `${elementName}[${eachAttribute.nodeName}=${eachAttribute.value}]` + selector;
+                if (document.querySelectorAll(selector).length > 1) {
+                    selector = generateSelectors(element.parentNode) + selector;
+                }
+            }
+
+        })
         return selector;
     }
 
