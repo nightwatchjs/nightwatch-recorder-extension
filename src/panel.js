@@ -3,7 +3,7 @@
     const selectorTable = document.getElementById('selectorTable');
     const tabID = chrome.devtools.inspectedWindow.tabId;
     let webSocketConnection = false;
-    
+
     const backgroundPageConnection = chrome.runtime.connect({
         name: "devtools-page"
     });
@@ -106,8 +106,15 @@
     }
 
     function clickOnCopy(e) {
+        // Info: clipboard API not working. Using deprecated execCommand function
         const selectorValue = getSelectorFromFirstCell(e);
-        // TODO: clipboard API not working. Need to figure out other way to copy
+        var textarea = document.createElement("textarea");
+        textarea.textContent = selectorValue;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        
         //sendMessageToBackground('copyToClipboard', selectorValue);
         //chrome.clipboard.writeText(selectorValue);
     }

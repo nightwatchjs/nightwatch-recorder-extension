@@ -17,10 +17,6 @@
                 highlightSelector(content);
                 break;
             
-            // case 'copyToClipboard':
-            //     console.log(content);
-            //     navigator.clipboard.writeText(content);
-            //     break;
         }
     });
 
