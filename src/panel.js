@@ -2,7 +2,6 @@
     const webSocket = new WebSocket('ws://localhost:8080');
     const selectorTable = document.getElementById('selectorTable');
     const tabID = chrome.devtools.inspectedWindow.tabId;
-    let webSocketConnection = false;
 
     const backgroundPageConnection = chrome.runtime.connect({
         name: "devtools-page"
@@ -27,24 +26,18 @@
         }
     });
 
-    webSocket.addEventListener('open', function (event) {
-        webSocketConnection = true;
+    webSocket.onopen = () => {
+        console.log("Hurray, Connected to Nightwatch Server !!");
+    };
+
+    webSocket.onmessage = ((msg) => {
+        console.log(msg);
+        document.getElementById('commandResult').textContent = msg.data;
     });
 
-    if (webSocketConnection) {
-        webSocket.onopen = () => {
-            console.log("Hurray, Connected to Nightwatch Server !!");
-        };
-    
-        webSocket.onmessage = ((msg) => {
-            console.log(msg);
-            document.getElementById('commandResult').textContent = msg.data;
-        });
-    
-        webSocket.onclose = () => {
-            console.log("Bye, Nightwatch Server Closed !!");
-        };
-    }
+    webSocket.onclose = () => {
+        console.log("Bye, Nightwatch Server Closed !!");
+    };
 
     document.querySelector('#exploreMode').addEventListener('click', function(e) {
         const checkBox = e.target;
@@ -57,7 +50,7 @@
 
     document.querySelector('#tryNightwatchCommand').addEventListener('click', function(e) {
         const nightwatchCommandElement = document.getElementById('nightwatchCommand');
-        const nightwatchCommand = nightwatchCommandElement.value;
+        const nightwatchCommand = nightwatchCommandElement.textContent;
         webSocket.send(nightwatchCommand);
     });
 
