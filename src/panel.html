@@ -6,25 +6,79 @@
         html {
             width: 500px;
         }
+        #nightwatchCommand {
+          width: 100%;
+          padding: 10px 12px;
+          margin: 8px 0;
+          box-sizing: border-box;
+        }
+        #tryNightwatchCommand {
+          margin: 7px;
+          display: inline-block;
+          padding: 7px 20px;
+          font-size: 15px;
+          cursor: pointer;
+          text-align: center;
+          text-decoration: none;
+          outline: none;
+          color: #fff;
+          background-color: #c57a7a;
+          border: none;
+          border-radius: 10px;
+        }
+
+        #selectorTable {
+          font-family: Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        #selectorTable td, #selectorTable th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+
+        #selectorTable tr:nth-child(even){background-color: #f2f2f2;}
+
+        #selectorTable tr:hover {background-color: #ddd;}
+
+        #selectorTable th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #04AA6D;
+          color: white;
+        }
     </style>
   <body>
     <h2>Selector Playground</h2>
     <input type="checkbox" id="exploreMode">
     <label for="ExploreMode">Explore Mode</label> 
-    <h3>Try Nightwatch Commands</h3>
-    <input type="text" id="nightwatchCommand">
-    <button id="tryNightwatchCommand">Try</button>
-    <table style="width:100%" id="selectorTable">
-        <thead>
-          <tr>
-            <th>Selector</th>
-            <th>Timestamp</th>
-            <th class="table-row">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+
+    <div>
+      <h3>Try Nightwatch Commands</h3>
+      <div style="display: flex;">
+        <input type="text" id="nightwatchCommand" value="browser.title()">
+        <button id="tryNightwatchCommand">Try</button>
+      </div>
+      <h3>Results</h3>
+      <textarea style="width: 100%;" id="commandResult" name="w3review" rows="4"></textarea>
+    </div>
+
+    <div>
+      <h3>Selector History</h3>
+      <table style="width:100%" id="selectorTable">
+          <thead>
+            <tr>
+              <th>Selector</th>
+              <th>Timestamp</th>
+              <th class="table-row">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
+    </div>
     <script src="panel.js"></script>
   </body>
 </html>
