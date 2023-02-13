@@ -32,10 +32,18 @@
     });
 
     if (webSocketConnection) {
-        webSocket.on('message', function message(msg) {
+        webSocket.onopen = () => {
+            console.log("Hurray, Connected to Nightwatch Server !!");
+        };
+    
+        webSocket.onmessage = ((msg) => {
             console.log(msg);
-            document.getElementById('nightwatchCommand').textContent = msg.data;
+            document.getElementById('commandResult').textContent = msg.data;
         });
+    
+        webSocket.onclose = () => {
+            console.log("Bye, Nightwatch Server Closed !!");
+        };
     }
 
     document.querySelector('#exploreMode').addEventListener('click', function(e) {
@@ -49,7 +57,7 @@
 
     document.querySelector('#tryNightwatchCommand').addEventListener('click', function(e) {
         const nightwatchCommandElement = document.getElementById('nightwatchCommand');
-        const nightwatchCommand = nightwatchCommandElement.textContent;
+        const nightwatchCommand = nightwatchCommandElement.value;
         webSocket.send(nightwatchCommand);
     });
 
