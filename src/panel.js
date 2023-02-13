@@ -50,7 +50,7 @@
 
     document.querySelector('#tryNightwatchCommand').addEventListener('click', function(e) {
         const nightwatchCommandElement = document.getElementById('nightwatchCommand');
-        const nightwatchCommand = nightwatchCommandElement.textContent;
+        const nightwatchCommand = nightwatchCommandElement.value;
         webSocket.send(nightwatchCommand);
     });
 
