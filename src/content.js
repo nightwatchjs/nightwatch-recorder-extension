@@ -27,8 +27,8 @@
 
         const element = e.target;
         highlightElement(element);
-        //const selectorList = generateSelectors(element) || generateUniqueSelectors(element);
-        const selectorList = generateUniqueSelectors(element);
+        const selectorList = generateSelectors(element) || generateCssSelectors(element);
+        //const selectorList = generateCssSelectors(element);
         updateTooltipPosition(element, selectorList);
     });
 
@@ -50,8 +50,8 @@
         disableClick(e);
         clearHighlight();
         var element = e.target;
-        //const selectorList = generateSelectors(element) || generateUniqueSelectors(element);
-        const selectorList = generateUniqueSelectors(element);
+        const selectorList = generateSelectors(element) || generateCssSelectors(element);
+        //const selectorList = generateCssSelectors(element);
 
         chrome.runtime.sendMessage({
             from: 'contentJS',
@@ -102,7 +102,7 @@
         e.preventDefault();
     }
 
-    function generateUniqueSelectors(element) {
+    function generateCssSelectors(element) {
 
         let selector = '>' + element.nodeName.toLowerCase() + ':nth-child(' + getChildIndex(element) + ')';
         let parent = element.parentNode;
@@ -122,19 +122,37 @@
     }
 
     function generateSelectors(element) {
+        let selectors = [];
         let selector = '';
+        element = element.closest('a,input,button') || element;
         const elementName = element.nodeName.toLowerCase();
-        [...element.attributes].forEach((eachAttribute) => {
+        const attributes = [...element.attributes];
+        attributes.filter(eachAttribute => eachAttribute.nodeName.toLowerCase() !== 'class')
+        .forEach((eachAttribute) => {
             const attributesName = eachAttribute.nodeName.toLowerCase();
-            if (attributesName.startsWith('data-')) {
-                selector = `${elementName}[${eachAttribute.nodeName}=${eachAttribute.value}]` + selector;
-                if (document.querySelectorAll(selector).length > 1) {
-                    selector = generateSelectors(element.parentNode) + selector;
-                }
+            // if (attributesName.startsWith('data-')) {
+            //     selector = `[${eachAttribute.nodeName}=${eachAttribute.value}]`;
+            //     selectors.push({
+            //         selector: selector,
+            //         priority: 1
+            //     });
+            // }
+            selector = `${elementName}[${attributesName}="${eachAttribute.value}"]`;
+            selectors.push({
+                selector: selector,
+                priority: 1
+            });
+        });
+        
+        for (let i=0; selectors.length; i++) {
+            console.log(selectors[i]);
+            selector = selectors[i].selector;
+            if (document.querySelectorAll(selector).length === 1) {
+                return selector;
             }
+        }
 
-        })
-        return selector;
+        return '';
     }
 
     function getChildIndex(element) {

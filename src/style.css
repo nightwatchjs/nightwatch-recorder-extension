@@ -9,7 +9,7 @@
     border-radius: 6px;
     padding: 5px;
     position: absolute;
-    z-index: 100;
+    z-index: 1000;
     top: 0;
     left: 0;
     display: flex;

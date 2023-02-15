@@ -3,15 +3,14 @@
         table, th, td {
           border:1px solid black;
         }
-        html {
-            width: 500px;
-        }
+
         #nightwatchCommand {
           width: 100%;
           padding: 10px 12px;
           margin: 8px 0;
           box-sizing: border-box;
         }
+
         #tryNightwatchCommand {
           margin: 7px;
           display: inline-block;
@@ -31,6 +30,9 @@
           font-family: Arial, Helvetica, sans-serif;
           border-collapse: collapse;
           width: 100%;
+          display: block;
+          max-height: 300px;
+          overflow-y: scroll;
         }
 
         #selectorTable td, #selectorTable th {
@@ -56,16 +58,6 @@
     <label for="ExploreMode">Explore Mode</label> 
 
     <div>
-      <h3>Try Nightwatch Commands</h3>
-      <div style="display: flex;">
-        <textarea type="text" id="nightwatchCommand">browser.title()</textarea>
-        <button id="tryNightwatchCommand">Try</button>
-      </div>
-      <h3>Results</h3>
-      <textarea style="width: 100%;" id="commandResult" name="w3review" rows="4"></textarea>
-    </div>
-
-    <div>
       <h3>Selector History</h3>
       <table style="width:100%" id="selectorTable">
           <thead>
@@ -78,6 +70,16 @@
           <tbody>
           </tbody>
       </table>
+    </div>
+
+    <div>
+      <h3>Try Nightwatch Commands</h3>
+      <div style="display: flex;">
+        <textarea type="text" id="nightwatchCommand">browser.title()</textarea>
+        <button id="tryNightwatchCommand">Try</button>
+      </div>
+      <h3>Results</h3>
+      <textarea style="width: 100%;" id="commandResult" name="w3review" rows="4"></textarea>
     </div>
     <script src="panel.js"></script>
   </body>
