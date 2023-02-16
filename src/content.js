@@ -122,37 +122,89 @@
     }
 
     function generateSelectors(element) {
+        const selectors = accumulateSelectors(element);
+        let classSelector = '';
+        selectors.sort((a, b) => a.priority > b.priority);
+        console.log(selectors);
+        if (selectors.length) {
+            return selectors[0].selector;
+        }
+        // selectors.forEach(({selector}) => {
+        //     const parentElementTagName = element.parentNode && element.parentNode.nodeName.toLowerCase();
+        //     // if (document.querySelectorAll(selector).length === 1) {
+        //     //     return selector;
+        //     // }
+        //     return selector;
+
+        //     // const parentSelector = parentElementTagName + ' ' + selector;
+
+        //     // if (document.querySelectorAll(parentSelector).length === 1) {
+        //     //     return parentSelector;
+        //     // }
+        //     console.log(selector, parentSelector);
+
+        // });
+
+        let classList = [...element.classList];
+        for(let i=0; i < classList.length; i++) {
+                if (classList[i] === highlightClassName) {
+                    continue;
+                }
+
+                classSelector += '.' + classList[i];
+                // if(document.querySelectorAll(classSelector).length === 1) {
+                //     return classSelector;
+                // }
+        }
+        if (classSelector) {
+            return classSelector;        
+        }
+    //    selectors.forEach(({selector}) => {
+    //         if (document.querySelectorAll(selector + classSelector).length === 1) {
+    //             return selector + classSelector;
+    //         }
+    //     });
+
+        return '';
+    }
+
+    function accumulateSelectors(element) {
         let selectors = [];
         let selector = '';
         element = element.closest('a,input,button') || element;
         const elementName = element.nodeName.toLowerCase();
         const attributes = [...element.attributes];
-        attributes.filter(eachAttribute => eachAttribute.nodeName.toLowerCase() !== 'class')
-        .forEach((eachAttribute) => {
+        attributes.forEach((eachAttribute) => {
             const attributesName = eachAttribute.nodeName.toLowerCase();
-            // if (attributesName.startsWith('data-')) {
-            //     selector = `[${eachAttribute.nodeName}=${eachAttribute.value}]`;
-            //     selectors.push({
-            //         selector: selector,
-            //         priority: 1
-            //     });
-            // }
-            selector = `${elementName}[${attributesName}="${eachAttribute.value}"]`;
-            selectors.push({
-                selector: selector,
-                priority: 1
-            });
-        });
-        
-        for (let i=0; selectors.length; i++) {
-            console.log(selectors[i]);
-            selector = selectors[i].selector;
-            if (document.querySelectorAll(selector).length === 1) {
-                return selector;
+            const attributesValue = eachAttribute.value;
+            if (attributesName.startsWith('data-') && attributesValue) {
+                selector = `${elementName}[${attributesName}="${attributesValue}"]`;
+                selectors.push({
+                    selector: selector,
+                    priority: 1
+                });
             }
-        }
 
-        return '';
+            if(['placeholder', 'name', 'alt', 'title', 'type', 'id', 'href'].includes(attributesName) && attributesValue) {
+                if (attributesName === 'class' && attributesValue) {
+                    selector = `${elementName}[${attributesName}="${attributesValue}"]`;
+                    selectors.push({
+                        selector: selector,
+                        priority: 2
+                    });
+                }
+                else {
+                    selector = `${elementName}[${attributesName}="${attributesValue}"]`;
+                    selectors.push({
+                        selector: selector,
+                        priority: 2
+                    });
+                }
+                
+            }
+        });
+
+        return selectors;
     }
 
     function getChildIndex(element) {
@@ -180,7 +232,7 @@
         nwTooltip.style.top = rect.top + window.pageYOffset + 'px';
         nwTooltip.style.left = rect.right + window.pageXOffset + 10 + 'px';
         // removing css class which is added to highlight the text
-        selectorValue = selectorValue.replace(highlightClassName, '');
+        //selectorValue = selectorValue.replace(highlightClassName, '');
         nwTooltip.textContent = selectorValue;
         return;
     }
